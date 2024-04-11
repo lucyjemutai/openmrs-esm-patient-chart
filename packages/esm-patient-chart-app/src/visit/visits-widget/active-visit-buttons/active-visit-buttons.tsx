@@ -7,15 +7,49 @@ import { Add } from '@carbon/react/icons';
 import type { Visit } from '@openmrs/esm-framework';
 import { showModal, useLayoutType } from '@openmrs/esm-framework';
 
-export interface ActiveVisitActionsInterface {
+interface ActiveVisitActionsInterface {
   visit: Visit;
   patientUuid: string;
 }
-const ActiveVisitActions: React.FC<ActiveVisitActionsInterface> = ({ visit, patientUuid }) => {
+
+interface ActiveVisitProps {
+  encounterUuid: string;
+  formUuid: string;
+  mutateform: any;
+  action: 'add' | 'edit';
+}
+
+const ActiveVisitActions: React.FC<ActiveVisitActionsInterface & ActiveVisitProps> = ({
+  patientUuid,
+  mutateform,
+  action,
+}) => {
   const { t } = useTranslation();
   const layout = useLayoutType();
   const isTablet = layout === 'tablet';
   const isMobile = layout === 'phone';
+
+  const handleLaunchNotesForm = () => {
+    const form = { name: 'Active Visit Note' };
+    const uuid = 'd83b1ce4-77d7-3334-af9d-a4217337e69d';
+
+    launchPatientWorkspace('patient-form-entry-workspace', {
+      workspaceTitle: form.name,
+      mutateform: mutateform,
+      formInfo: {
+        encounterUuid: '',
+        formUuid: uuid,
+        patientUuid: patientUuid,
+        visitTypeUuid: '',
+        visitUuid: '',
+        visitStartDatetime: '',
+        visitStopDatetime: '',
+        additionalProps: {
+          mode: action === 'add',
+        },
+      },
+    });
+  };
 
   return (
     <div>
@@ -24,12 +58,7 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface> = ({ visit, pati
           <VisitActionsComponent patientUuid={patientUuid} />
 
           <MenuButton label={t('more', 'More')} kind="ghost">
-            <MenuItem
-              kind="ghost"
-              label={t('addNote', 'Add note')}
-              onClick={useLaunchWorkspaceRequiringVisit('visit-notes-form-workspace')}
-              renderIcon={Add}
-            />
+            <MenuItem kind="ghost" label={t('addNote', 'Add note')} onClick={handleLaunchNotesForm} renderIcon={Add} />
             <MenuItem
               kind="ghost"
               label={t('addLabOrPrescription', 'Add lab or prescription')}
@@ -74,7 +103,7 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface> = ({ visit, pati
             kind="ghost"
             renderIcon={(props) => <Add size={16} {...props} />}
             iconDescription="Add visit note"
-            onClick={useLaunchWorkspaceRequiringVisit('visit-notes-form-workspace')}
+            onClick={handleLaunchNotesForm}
           >
             {t('addNote', 'Add note')}
           </Button>
