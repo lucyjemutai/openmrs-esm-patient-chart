@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { InlineLoading, Tab, Tabs, TabList, TabPanel, TabPanels } from '@carbon/react';
-import { EmptyState, ErrorState } from '@openmrs/esm-patient-common-lib';
+import { EmptyState, ErrorState, launchPatientChartWithWorkspaceOpen } from '@openmrs/esm-patient-common-lib';
 import { ExtensionSlot, formatDatetime, parseDate } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { useVisits } from './visit.resource';
@@ -17,6 +17,13 @@ function ActiveVisitDetailOverviewComponent({ patientUuid }: ActiveVisitOverview
 
   const activeVisits = visits?.filter((visit) => visit.stopDatetime === null);
 
+  const handleStartVisit = useCallback(() => {
+    launchPatientChartWithWorkspaceOpen({
+      patientUuid,
+      workspaceName: 'start-visit-workspace-form',
+    });
+  }, [patientUuid]);
+
   if (isLoading) {
     return (
       <InlineLoading
@@ -29,6 +36,16 @@ function ActiveVisitDetailOverviewComponent({ patientUuid }: ActiveVisitOverview
 
   if (error) {
     return <ErrorState headerTitle={t('failedToLoadActiveVisits', 'Failed loading active visits')} error={error} />;
+  }
+
+  if (activeVisits?.length === 0) {
+    return (
+      <EmptyState
+        displayText={t('noActiveVisitsAvailable', 'No active visits available')}
+        headerTitle={t('noActiveVisits', 'No active visits')}
+        launchForm={handleStartVisit}
+      />
+    );
   }
 
   return (

@@ -191,13 +191,15 @@ const VisitSummary: React.FC<VisitSummaryProps> = ({ visit, patientUuid }) => {
           </TabPanel>
           {visit?.encounters?.length > 0 && foundEncounter && (
             <TabPanel key={selectedIndex}>
-              <OHRIForm
-                patientUUID={patientUuid}
-                formUUID={foundEncounter.form?.uuid}
-                encounterUUID={foundEncounter.uuid}
-                mode="view"
+              <ExtensionSlot
+                name="form-widget-slot"
+                state={{
+                  additionalProps: { mode: 'embedded-view' },
+                  formUuid: foundEncounter.form?.uuid,
+                  encounterUuid: foundEncounter.uuid,
+                  patientUuid: patientUuid,
+                }}
               />
-              <p>Test</p>
             </TabPanel>
           )}
           <ExtensionSlot name={visitSummaryPanelSlot}>
