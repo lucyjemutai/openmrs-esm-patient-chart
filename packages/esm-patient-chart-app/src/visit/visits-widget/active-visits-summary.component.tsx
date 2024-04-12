@@ -79,7 +79,7 @@ function ActiveVisitDetailOverviewComponent({ patientUuid }: ActiveVisitOverview
                         </div>
                       </div>
                       <div>
-                        <ExtensionSlot name="active-visit-actions" />
+                        <ExtensionSlot name="active-visit-actions" state={{ patientUuid, visit }} />
                       </div>
                     </div>
                   </div>
