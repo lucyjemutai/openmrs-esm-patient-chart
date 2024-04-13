@@ -164,7 +164,6 @@ interface VisitActionsProps {
 }
 
 const VisitActionsComponent: React.FC<VisitActionsProps> = ({ patientUuid, visit }) => {
-  // Add visit to the destructured props
   const { t } = useTranslation();
 
   const openModal = useCallback(
