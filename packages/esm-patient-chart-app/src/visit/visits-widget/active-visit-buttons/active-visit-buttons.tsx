@@ -23,6 +23,7 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface & ActiveVisitProp
   patientUuid,
   mutateform,
   action,
+  visit,
 }) => {
   const { t } = useTranslation();
   const layout = useLayoutType();
@@ -55,7 +56,7 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface & ActiveVisitProp
     <div>
       {isTablet || isMobile ? (
         <div className={styles.buttonsContainer}>
-          <VisitActionsComponent patientUuid={patientUuid} />
+          <VisitActionsComponent patientUuid={patientUuid} visit={visit} />
 
           <MenuButton label={t('more', 'More')} kind="ghost">
             <MenuItem kind="ghost" label={t('addNote', 'Add note')} onClick={handleLaunchNotesForm} renderIcon={Add} />
@@ -116,7 +117,7 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface & ActiveVisitProp
             {t('addLabOrPrescription', 'Add lab or prescription')}
           </Button>
 
-          <VisitActionsComponent patientUuid={patientUuid} />
+          <VisitActionsComponent patientUuid={patientUuid} visit={visit} />
 
           <MenuButton label={t('more', 'More')} kind="ghost">
             <MenuItem
@@ -157,11 +158,12 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface & ActiveVisitProp
 };
 
 export default ActiveVisitActions;
-
 interface VisitActionsProps {
   patientUuid: string;
+  visit: Visit;
 }
-const VisitActionsComponent: React.FC<VisitActionsProps> = ({ patientUuid }) => {
+
+const VisitActionsComponent: React.FC<VisitActionsProps> = ({ patientUuid, visit }) => {
   const { t } = useTranslation();
 
   const openModal = useCallback(
@@ -169,9 +171,10 @@ const VisitActionsComponent: React.FC<VisitActionsProps> = ({ patientUuid }) => 
       const dispose = showModal(modalName, {
         closeModal: () => dispose(),
         patientUuid,
+        visit,
       });
     },
-    [patientUuid],
+    [patientUuid, visit],
   );
 
   return (
@@ -190,8 +193,14 @@ const VisitActionsComponent: React.FC<VisitActionsProps> = ({ patientUuid }) => 
       />
       <MenuItem
         kind="ghost"
-        label={t('deleteVisit', 'Delete visit')}
-        onClick={() => openModal('delete-visit-dialog')}
+        label={t('deleteVisit', 'Delete Visit')}
+        onClick={() => {
+          const dispose = showModal('delete-visit-dialog', {
+            patientUuid,
+            visit,
+            closeModal: () => dispose(),
+          });
+        }}
         renderIcon={Add}
       />
     </MenuButton>

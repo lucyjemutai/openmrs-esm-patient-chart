@@ -6,9 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { useVisits } from './visit.resource';
 import VisitSummary from './past-visits-components/visit-summary.component';
 import styles from './visit-detail-overview.scss';
+import type { Visit } from '@openmrs/esm-framework';
 
 interface ActiveVisitOverviewComponentProps {
   patientUuid: string;
+  visit: Visit;
 }
 
 function ActiveVisitDetailOverviewComponent({ patientUuid }: ActiveVisitOverviewComponentProps) {
@@ -79,7 +81,11 @@ function ActiveVisitDetailOverviewComponent({ patientUuid }: ActiveVisitOverview
                         </div>
                       </div>
                       <div>
-                        <ExtensionSlot name="active-visit-actions" state={{ patientUuid, visit }} />
+                        <ExtensionSlot
+                          name="active-visit-actions"
+                          className={styles.visitDetailOverviewActions}
+                          state={{ patientUuid, visit }}
+                        />
                       </div>
                     </div>
                   </div>
