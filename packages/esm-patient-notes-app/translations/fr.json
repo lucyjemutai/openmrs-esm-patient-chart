@@ -11,6 +11,8 @@
   "emptyDiagnosisText": "Aucun diagnostic sélectionné - Entrez un diagnostic ci-dessous",
   "enterPrimaryDiagnoses": "Mettre les diagnostics principaux",
   "enterSecondaryDiagnoses": "Mettre les diagnostics secondaires",
+  "error": "Error",
+  "errorFetchingConcepts": "There was a problem fetching concepts",
   "image": "Image",
   "imageUploadHelperText": "Téléchargez une image ou utilisez l'appareil photo de cet appareil pour prendre une photo",
   "noMatchingDiagnoses": "Aucun diagnostic trouvé correspondant",

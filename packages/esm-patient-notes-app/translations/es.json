@@ -11,6 +11,8 @@
   "emptyDiagnosisText": "No se ha seleccionado ningún diagnóstico. Introduce un diagnóstico a continuación",
   "enterPrimaryDiagnoses": "Ingresar diagnósticos principales",
   "enterSecondaryDiagnoses": "Ingresar diagnósticos secundarios",
+  "error": "Error",
+  "errorFetchingConcepts": "There was a problem fetching concepts",
   "image": "Imagen",
   "imageUploadHelperText": "Subir una imagen o utilizar la cámara de este dispositivo para capturar una imagen",
   "noMatchingDiagnoses": "No se encontraron diagnósticos coincidentes",
@@ -30,5 +32,5 @@
   "visitNotes": "Notas de visita",
   "visitNoteSaved": "Nota de visita guardada",
   "visitNoteSaveError": "Error al guardar la nota de visita",
-  "visitNoteWorkspaceTitle": "Nota de visita"
+  "visitNoteWorkspaceTitle": "Visit Note"
 }
