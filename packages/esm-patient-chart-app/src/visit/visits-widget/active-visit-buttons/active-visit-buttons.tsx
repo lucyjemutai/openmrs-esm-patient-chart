@@ -32,7 +32,7 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface & ActiveVisitProp
 
   const handleLaunchNotesForm = () => {
     const form = { name: 'Active Visit Note' };
-    const uuid = 'd83b1ce4-77d7-3334-af9d-a4217337e69d';
+    const uuid = 'a306d276-e7f6-3b53-9a09-a7a65d982eeb';
 
     launchPatientWorkspace('patient-form-entry-workspace', {
       workspaceTitle: form.name,
