@@ -43,7 +43,7 @@ function ActiveVisitDetailOverviewComponent({ patientUuid }: ActiveVisitOverview
   if (activeVisits?.length === 0) {
     return (
       <EmptyState
-        displayText={t('noActiveVisitsAvailable', 'No active visits available')}
+        displayText={t('noActiveVisitsAvailable', 'Visits')}
         headerTitle={t('noActiveVisits', 'No active visits')}
         launchForm={handleStartVisit}
       />
