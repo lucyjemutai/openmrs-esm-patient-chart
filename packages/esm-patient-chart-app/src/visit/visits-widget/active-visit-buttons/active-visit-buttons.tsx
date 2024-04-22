@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, MenuButton, MenuItem } from '@carbon/react';
 import { Add } from '@carbon/react/icons';
 import type { Visit } from '@openmrs/esm-framework';
-import { showModal, useLayoutType } from '@openmrs/esm-framework';
+import { showModal, useLayoutType, useConfig } from '@openmrs/esm-framework';
 
 interface ActiveVisitActionsInterface {
   visit: Visit;
@@ -25,21 +25,22 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface & ActiveVisitProp
   action,
   visit,
 }) => {
+  const config = useConfig();
   const { t } = useTranslation();
   const layout = useLayoutType();
   const isTablet = layout === 'tablet';
   const isMobile = layout === 'phone';
 
   const handleLaunchNotesForm = () => {
-    const form = { name: 'Active Visit Note' };
-    const uuid = 'a306d276-e7f6-3b53-9a09-a7a65d982eeb';
+    const title = 'Active Visit Note';
+    const formName = config.formName.structuredClinicalEncounterForm;
 
     launchPatientWorkspace('patient-form-entry-workspace', {
-      workspaceTitle: form.name,
+      workspaceTitle: title,
       mutateform: mutateform,
       formInfo: {
         encounterUuid: '',
-        formUuid: uuid,
+        formUuid: formName,
         patientUuid: patientUuid,
         visitTypeUuid: '',
         visitUuid: '',
