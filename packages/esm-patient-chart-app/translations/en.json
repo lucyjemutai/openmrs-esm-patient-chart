@@ -1,5 +1,6 @@
 {
   "activeVisitType": "{{visitType}} Visit",
+  "add": "Add +",
   "addAPastVisit": "Add a past visit",
   "addPastVisit": "Add past visit",
   "addPastVisitText": "You can add a new past visit or update an old one. Choose from one of the options below to continue.",
@@ -141,6 +142,7 @@
   "refreshToTryAgain": "Please refresh to try again",
   "Results Viewer dashboard": "Results Viewer dashboard",
   "retrospectiveEntry": "Retrospective Entry",
+  "sat": "Sat",
   "searchForAVisitType": "Search for a visit type",
   "searchForCauseOfDeath": "Search for a cause of death",
   "searchThisList": "Search this list",
