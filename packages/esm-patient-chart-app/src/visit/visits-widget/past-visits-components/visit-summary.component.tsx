@@ -189,19 +189,24 @@ const VisitSummary: React.FC<VisitSummaryProps> = ({ visit, patientUuid }) => {
           <TabPanel>
             <MedicationSummary medications={medications} />
           </TabPanel>
-          {visit?.encounters?.length > 0 && foundEncounter && (
-            <TabPanel key={selectedIndex}>
-              <ExtensionSlot
-                name="form-widget-slot"
-                state={{
-                  additionalProps: { mode: 'embedded-view' },
-                  formUuid: foundEncounter.form?.uuid,
-                  encounterUuid: foundEncounter.uuid,
-                  patientUuid: patientUuid,
-                }}
-              />
-            </TabPanel>
-          )}
+          {visit?.encounters?.length > 0 &&
+            visit?.encounters
+              .filter((enc) => !!enc.form)
+              .map((enc, ind) => (
+                <TabPanel key={ind}>
+                  {selectedTab === enc.uuid && (
+                    <ExtensionSlot
+                      name="form-widget-slot"
+                      state={{
+                        additionalProps: { mode: 'embedded-view' },
+                        formUuid: enc.form?.uuid,
+                        encounterUuid: enc.uuid,
+                        patientUuid: patientUuid,
+                      }}
+                    />
+                  )}
+                </TabPanel>
+              ))}
           <ExtensionSlot name={visitSummaryPanelSlot}>
             <TabPanel>
               <Extension state={{ patientUuid, visit }} />
