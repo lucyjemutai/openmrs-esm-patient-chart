@@ -7,6 +7,7 @@ import { useVisits } from './visit.resource';
 import VisitSummary from './past-visits-components/visit-summary.component';
 import styles from './visit-detail-overview.scss';
 import type { Visit } from '@openmrs/esm-framework';
+import { navigate } from '@openmrs/esm-framework';
 
 interface ActiveVisitOverviewComponentProps {
   patientUuid: string;
@@ -23,6 +24,9 @@ function ActiveVisitDetailOverviewComponent({ patientUuid }: ActiveVisitOverview
     launchPatientChartWithWorkspaceOpen({
       patientUuid,
       workspaceName: 'start-visit-workspace-form',
+    });
+    navigate({
+      to: `/openmrs/spa/patient/${patientUuid}/chart/Active%20Visits`,
     });
   }, [patientUuid]);
 
