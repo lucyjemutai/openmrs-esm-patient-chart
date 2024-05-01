@@ -198,7 +198,7 @@ const VisitSummary: React.FC<VisitSummaryProps> = ({ visit, patientUuid }) => {
                     <ExtensionSlot
                       name="form-widget-slot"
                       state={{
-                        additionalProps: { mode: 'embedded-view' },
+                        additionalProps: { mode: 'view' },
                         formUuid: enc.form?.uuid,
                         encounterUuid: enc.uuid,
                         patientUuid: patientUuid,
