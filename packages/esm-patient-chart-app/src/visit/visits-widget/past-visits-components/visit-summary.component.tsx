@@ -201,7 +201,7 @@ const VisitSummary: React.FC<VisitSummaryProps> = ({ visit, patientUuid }) => {
                         formUuid: enc.form?.uuid,
                         encounterUuid: enc.uuid,
                         patientUuid: patientUuid,
-                        promptBeforeClosing: () => {},
+                        promptBeforeClosing: () => {}, //TODO pass the actual function for promptBeforeClosing
                       }}
                     />
                   )}
