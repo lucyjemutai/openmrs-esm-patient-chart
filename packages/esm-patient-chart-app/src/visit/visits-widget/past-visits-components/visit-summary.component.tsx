@@ -27,9 +27,8 @@ import VisitsTable from './visits-table/visits-table.component';
 import MedicationSummary from './medications-summary.component';
 import NotesSummary from './notes-summary.component';
 import TestsSummary from './tests-summary.component';
-import type { ExternalOverviewProps } from '@openmrs/esm-patient-common-lib';
+import { type ExternalOverviewProps } from '@openmrs/esm-patient-common-lib';
 import styles from './visit-summary.scss';
-import { OHRIForm } from '@openmrs/openmrs-form-engine-lib';
 
 interface DiagnosisItem {
   diagnosis: string;
@@ -202,6 +201,7 @@ const VisitSummary: React.FC<VisitSummaryProps> = ({ visit, patientUuid }) => {
                         formUuid: enc.form?.uuid,
                         encounterUuid: enc.uuid,
                         patientUuid: patientUuid,
+                        promptBeforeClosing: () => {},
                       }}
                     />
                   )}
