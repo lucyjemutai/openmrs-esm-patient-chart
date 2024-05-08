@@ -1,8 +1,11 @@
 {
   "closeThisPanel": "关闭此面板",
+  "collapseAll": "Collapse all",
   "errorTitle": "此表单出现错误",
+  "expandAll": "Expand all",
   "loading": "加载中",
   "or": "或者",
   "thisList": "这个列表",
+  "toggleCollapseOrExpand": "Toggle collapse or expand",
   "tryAgainMessage": "尝试打开另一个表单 "
 }

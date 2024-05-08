@@ -1,8 +1,11 @@
 {
   "closeThisPanel": "បិទប្រអប់នេះ",
+  "collapseAll": "Collapse all",
   "errorTitle": "ទម្រង់នេះមិនដំណើរការ",
+  "expandAll": "Expand all",
   "loading": "កំពុងចម្លង...",
   "or": "ឬ",
   "thisList": "បញ្ជីនេះ។",
+  "toggleCollapseOrExpand": "Toggle collapse or expand",
   "tryAgainMessage": "ព្យាយាមបើកទម្រង់ផ្សេងទៀត"
 }

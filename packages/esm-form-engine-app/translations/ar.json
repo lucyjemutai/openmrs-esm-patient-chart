@@ -1,8 +1,11 @@
 {
   "closeThisPanel": "أغلق هذه اللوحة",
+  "collapseAll": "Collapse all",
   "errorTitle": "كان هناك خطأ في هذا النموذج",
+  "expandAll": "Expand all",
   "loading": "جار التحميل",
   "or": "أو",
   "thisList": "هذه القائمة",
+  "toggleCollapseOrExpand": "Toggle collapse or expand",
   "tryAgainMessage": "حاول فتح نموذج آخر من"
 }

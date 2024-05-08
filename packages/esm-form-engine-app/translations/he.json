@@ -1,8 +1,11 @@
 {
   "closeThisPanel": "סוגר את הפאנל",
+  "collapseAll": "Collapse all",
   "errorTitle": "אירעה שגיאה בטופס",
+  "expandAll": "Expand all",
   "loading": "טוען",
   "or": "או",
   "thisList": "רשימה זו",
+  "toggleCollapseOrExpand": "Toggle collapse or expand",
   "tryAgainMessage": "נסה לפתוח טופס"
 }
