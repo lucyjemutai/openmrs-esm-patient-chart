@@ -40,6 +40,7 @@ import {
   useOrderTypes,
   usePatientOrders,
   getDrugOrderByUuid,
+  launchPatientWorkspace,
 } from '@openmrs/esm-patient-common-lib';
 import { Add, Printer } from '@carbon/react/icons';
 import { age, formatDate, useConfig, useLayoutType, usePagination, usePatient } from '@openmrs/esm-framework';
