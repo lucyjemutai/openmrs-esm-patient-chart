@@ -53,6 +53,16 @@ const ActiveVisitActions: React.FC<ActiveVisitActionsInterface & ActiveVisitProp
     });
   };
 
+  const launchAllergiesFormWorkspace = useLaunchWorkspaceRequiringVisit('patient-allergy-form-workspace');
+  const launchAppointmentsFormWorkspace = useLaunchWorkspaceRequiringVisit('appointments-form-workspace');
+  const launchClinicalFormsWorkspace = useLaunchWorkspaceRequiringVisit('clinical-forms-workspace');
+  const launchConditionsFormWorkspace = useLaunchWorkspaceRequiringVisit('conditions-form-workspace');
+  const launchOrderBasketFormWorkspace = useLaunchWorkspaceRequiringVisit('order-basket');
+  const launchVisitNotesFormWorkspace = useLaunchWorkspaceRequiringVisit('visit-notes-form-workspace');
+  const launchVitalsAndBiometricsFormWorkspace = useLaunchWorkspaceRequiringVisit(
+    'patient-vitals-biometrics-form-workspace',
+  );
+
   return (
     <div>
       {isTablet || isMobile ? (
