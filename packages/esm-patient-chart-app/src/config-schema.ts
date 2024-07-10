@@ -133,6 +133,13 @@ export const esmPatientChartSchema = {
       'Whether on start visit form should handle submission of the extra visit attributes from the extra visit attributes slot',
     _default: false,
   },
+  formName: {
+    _type: Type.Object,
+    _description: 'Form names for various functionalities like launching a form.',
+    _default: {
+      structuredClinicalEncounterForm: 'Structured Clinical Encounter Form',
+    },
+  },
 };
 export interface ChartConfig {
   freeTextFieldConceptUuid: string;
@@ -158,4 +165,7 @@ export interface ChartConfig {
   disableChangingVisitLocation: boolean;
   numberOfVisitsToLoad: number;
   showExtraVisitAttributesSlot: boolean;
+  formName: {
+    structuredClinicalEncounterForm: string;
+  };
 }
