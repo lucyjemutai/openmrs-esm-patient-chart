@@ -137,7 +137,7 @@ export const esmPatientChartSchema = {
     _type: Type.Object,
     _description: 'Form names for various functionalities like launching a form.',
     _default: {
-      structuredClinicalEncounterForm: 'Structured Clinical Encounter Form',
+      structuredClinicalEncounterForm: 'Structured SOAP note',
     },
   },
 };

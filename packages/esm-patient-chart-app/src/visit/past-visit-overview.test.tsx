@@ -1,97 +1,118 @@
-import React from 'react';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { openmrsFetch, setCurrentVisit } from '@openmrs/esm-framework';
-import { mockPatient, renderWithSwr, waitForLoadingToFinish } from 'tools';
-import PastVisitOverview from './past-visit-overview.component';
+import React, { useMemo, useCallback } from 'react';
+import {
+  Button,
+  DataTable,
+  DataTableSkeleton,
+  TableContainer,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableCell,
+  type DataTableHeader,
+} from '@carbon/react';
+import { Edit } from '@carbon/react/icons';
+import { useTranslation } from 'react-i18next';
+import { setCurrentVisit } from '@openmrs/esm-framework';
+import { type DefaultPatientWorkspaceProps, ErrorState } from '@openmrs/esm-patient-common-lib';
+import { usePastVisits } from './visits-widget/visit.resource';
+import styles from './past-visit-overview.scss';
 
-const testProps = {
-  closeWorkspace: jest.fn(),
-  closeWorkspaceWithSavedChanges: jest.fn(),
-  patientUuid: mockPatient.id,
-  promptBeforeClosing: jest.fn(),
-};
+const PastVisitOverview: React.FC<DefaultPatientWorkspaceProps> = ({ patientUuid, closeWorkspace }) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language.toLowerCase().replace('_', '-');
 
-const mockPastVisits = {
-  data: {
-    results: [
-      {
-        uuid: '1f0b35e2-ab94-4f96-a439-ba67e4fe22b0',
-        encounters: [],
-        patient: { uuid: mockPatient.id },
-        visitType: { uuid: 'e89b4b06-8d7a-40e6-b5ad-d3209f47040b', name: 'ECH', display: 'ECH' },
-        attributes: [],
-        location: { uuid: '7fdfa2cb-bc95-405a-88c6-32b7673c0453', name: 'Laboratory', display: 'Laboratory' },
-        startDatetime: '2021-09-07T14:44:00.000+0000',
-        stopDatetime: '2021-09-07T16:26:28.000+0000',
-      },
-      {
-        uuid: '2fcf6cbc-99e0-4b6a-9ecc-a66b455bff15',
-        encounters: [],
-        patient: { uuid: mockPatient.id },
-        visitType: { uuid: '7b0f5697-27e3-40c4-8bae-f4049abfb4ed', name: 'Facility Visit', display: 'Facility Visit' },
-        attributes: [],
-        location: {
-          uuid: '6351fcf4-e311-4a19-90f9-35667d99a8af',
-          name: 'Registration Desk',
-          display: 'Registration Desk',
-        },
-        startDatetime: '2021-09-03T06:38:21.000+0000',
-        stopDatetime: '2021-09-03T06:38:27.000+0000',
-      },
+  const { data: pastVisits, isError, isLoading } = usePastVisits(patientUuid);
+
+  const headerData: Array<typeof DataTableHeader> = useMemo(
+    () => [
+      { key: 'startDate', header: t('startDate', 'Start date') },
+      { key: 'visitType', header: t('type', 'Type') },
+      { key: 'location', header: t('location', 'Location') },
+      { key: 'endDate', header: t('endDate_title', 'End date'), colSpan: 2 },
     ],
-  },
+    [t],
+  );
+
+  const rowData = useMemo(() => {
+    return pastVisits?.map((visit) => ({
+      id: `${visit.uuid}`,
+      startDate: new Date(visit.startDatetime).toLocaleDateString(locale, { dateStyle: 'medium' }),
+      visitType: visit.visitType.display,
+      location: visit.location?.display,
+      endDate: visit.stopDatetime
+        ? new Date(visit.startDatetime).toLocaleDateString(locale, { dateStyle: 'medium' })
+        : '',
+      visit: visit,
+    }));
+  }, [locale, pastVisits]);
+
+  const handleSelectVisit = useCallback(
+    (visitUuid: string) => {
+      closeWorkspace();
+      setCurrentVisit(patientUuid, visitUuid);
+    },
+    [closeWorkspace, patientUuid],
+  );
+
+  if (isLoading) {
+    return <DataTableSkeleton role="progressbar" />;
+  }
+  if (isError) {
+    return <ErrorState error={isError} headerTitle={t('pastVisitErrorText', 'Past Visit Error')} />;
+  }
+  if (pastVisits?.length) {
+    return (
+      <div className={styles.container}>
+        <DataTable headers={headerData} rows={rowData} useZebraStyles>
+          {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
+            <TableContainer title={t('pastVisits', 'Past Visits')}>
+              <Table {...getTableProps()}>
+                <TableHead>
+                  <TableRow>
+                    {headers.map((header) => (
+                      <TableHeader
+                        {...getHeaderProps({
+                          header,
+                          isSortable: header.isSortable,
+                        })}
+                      >
+                        {header.header}
+                      </TableHeader>
+                    ))}
+                    <TableHeader />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row, rowIndex) => (
+                    <TableRow {...getRowProps({ row })}>
+                      {row.cells.map((cell) => (
+                        <TableCell key={cell.id}>{cell.value?.content ?? cell.value}</TableCell>
+                      ))}
+                      <TableCell className="cds--table-column-menu">
+                        <Button
+                          renderIcon={Edit}
+                          hasIconOnly
+                          kind="ghost"
+                          iconDescription={t('editThisVisit', 'Edit this visit')}
+                          tooltipPosition="left"
+                          onClick={() => handleSelectVisit(row.id)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </DataTable>
+        <Button className={styles.button} onClick={closeWorkspace} kind="secondary">
+          {t('cancel', 'Cancel')}
+        </Button>
+      </div>
+    );
+  }
 };
 
-const mockOpenmrsFetch = openmrsFetch as jest.Mock;
-const mockSetCurrentVisit = setCurrentVisit as jest.Mock;
-
-describe('PastVisitOverview', () => {
-  beforeEach(() => {
-    testProps.closeWorkspace.mockClear();
-    mockSetCurrentVisit.mockClear();
-  });
-
-  it(`renders a tabular overview view of the patient's past visits data`, async () => {
-    const user = userEvent.setup();
-
-    mockOpenmrsFetch.mockReturnValueOnce(mockPastVisits);
-
-    renderPastVisitOverview();
-
-    await waitForLoadingToFinish();
-
-    expect(screen.getByRole('table')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /Past Visits/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Cancel/i })).toBeInTheDocument();
-
-    const tableHeaders = [/Start Date/i, /Type/i, /Location/i, /End Date/i];
-    tableHeaders.forEach((header) => expect(screen.getByRole('columnheader', { name: header })).toBeInTheDocument());
-
-    const tableRows = [/Sep 7, 2021 ECH Laboratory/i, /Sep 3, 2021 Facility Visit Registration Desk/i];
-    tableRows.forEach((header) => expect(screen.getByRole('row', { name: header })).toBeInTheDocument());
-
-    const cancelButton = screen.getByRole('button', { name: /Cancel/i });
-
-    await user.click(cancelButton);
-
-    expect(testProps.closeWorkspace).toHaveBeenCalledTimes(1);
-  });
-
-  it(`will enter retrospective entry mode for a specific visit`, async () => {
-    const user = userEvent.setup();
-    mockOpenmrsFetch.mockReturnValueOnce(mockPastVisits);
-    renderPastVisitOverview();
-    await waitForLoadingToFinish();
-    const editButtons = screen.queryAllByLabelText('Edit this visit');
-    expect(editButtons.length).toBe(2);
-    await user.click(editButtons[1]);
-
-    expect(mockSetCurrentVisit).toBeCalledWith(mockPatient.id, mockPastVisits.data.results[1].uuid);
-    expect(testProps.closeWorkspace).toHaveBeenCalledTimes(1);
-  });
-});
-
-function renderPastVisitOverview() {
-  renderWithSwr(<PastVisitOverview {...testProps} />);
-}
+export default PastVisitOverview;

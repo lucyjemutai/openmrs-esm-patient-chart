@@ -40,7 +40,9 @@ const CurrentVisitSummary: React.FC<CurrentVisitSummaryProps> = ({ patientUuid }
 
   return (
     <div className={styles.container}>
-      <ExtensionSlot name="active-visit-actions" />
+      <div className={styles.buttonsCard}>
+        <ExtensionSlot name="active-visit-actions" />
+      </div>
       <CardHeader title={t('currentVisit', 'Current visit')}>
         <span>{isValidating ? <InlineLoading /> : null}</span>
       </CardHeader>

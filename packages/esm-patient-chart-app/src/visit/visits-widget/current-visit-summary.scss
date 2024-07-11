@@ -3,9 +3,13 @@
 
 
 .container{
-    background-color: colors.$white-0;
+  background-color: colors.$white-0;
 }
 
 .visitSummaryCard{
-    margin: 0 spacing.$spacing-05;
+  margin: 0 spacing.$spacing-05;
+}
+
+.buttonsCard {
+  float: right;
 }

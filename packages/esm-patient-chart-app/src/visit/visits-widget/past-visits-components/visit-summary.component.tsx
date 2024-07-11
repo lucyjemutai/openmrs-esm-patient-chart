@@ -161,24 +161,14 @@ const VisitSummary: React.FC<VisitSummaryProps> = ({ visit, patientUuid }) => {
           >
             {t('medications', 'Medications')}
           </Tab>
-          {!isactiveVisitSummaryTabEnabled ? (
-            <Tab
-              className={styles.tab}
-              id="encounters-tab"
-              disabled={visit?.encounters.length <= 0 && config.disableEmptyTabs}
-            >
-              {t('encounters_title', 'Encounters')}
-            </Tab>
-          ) : (
-            visit?.encounters?.length > 0 &&
+          {visit?.encounters?.length > 0 &&
             visit?.encounters
               .filter((enc) => !!enc.form)
               .map((enc, ind) => (
                 <Tab i id={'tab-' + ind} key={ind} className={classNames(styles.tab, styles.bodyLong01)}>
                   {enc?.form?.name ? enc?.form?.name : enc?.form?.display}
                 </Tab>
-              ))
-          )}
+              ))}
           {extensions.map((extension, index) => (
             <Tab key={index} className={styles.tab} id={`${extension.meta.title || index}-tab`}>
               {t(extension.meta.title, {
@@ -198,12 +188,7 @@ const VisitSummary: React.FC<VisitSummaryProps> = ({ visit, patientUuid }) => {
           <TabPanel>
             <MedicationSummary medications={medications} />
           </TabPanel>
-          {!isactiveVisitSummaryTabEnabled ? (
-            <TabPanel>
-              <VisitsTable visits={mapEncounters(visit)} showAllEncounters={false} patientUuid={patientUuid} />
-            </TabPanel>
-          ) : (
-            visit?.encounters?.length > 0 &&
+          {visit?.encounters?.length > 0 &&
             visit?.encounters
               .filter((enc) => !!enc.form)
               .map((enc, ind) => (
@@ -221,8 +206,7 @@ const VisitSummary: React.FC<VisitSummaryProps> = ({ visit, patientUuid }) => {
                     />
                   )}
                 </TabPanel>
-              ))
-          )}
+              ))}
           <ExtensionSlot name={visitSummaryPanelSlot}>
             <TabPanel>
               <Extension state={{ patientUuid, visit }} />
