@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ErrorState, ExtensionSlot, useVisit } from '@openmrs/esm-framework';
 import { useTranslation } from 'react-i18next';
 import { InlineLoading } from '@carbon/react';
@@ -13,6 +13,13 @@ interface CurrentVisitSummaryProps {
 const CurrentVisitSummary: React.FC<CurrentVisitSummaryProps> = ({ patientUuid }) => {
   const { t } = useTranslation();
   const { isLoading, currentVisit, error, isValidating } = useVisit(patientUuid);
+  const state = useMemo(
+    () => ({
+      patientUuid,
+      currentVisit,
+    }),
+    [patientUuid, currentVisit],
+  );
 
   if (isLoading) {
     return (
@@ -41,7 +48,7 @@ const CurrentVisitSummary: React.FC<CurrentVisitSummaryProps> = ({ patientUuid }
   return (
     <div className={styles.container}>
       <div className={styles.buttonsCard}>
-        <ExtensionSlot name="active-visit-actions" />
+        <ExtensionSlot name="active-visit-actions" state={state} />
       </div>
       <CardHeader title={t('currentVisit', 'Current visit')}>
         <span>{isValidating ? <InlineLoading /> : null}</span>
